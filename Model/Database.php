@@ -8,7 +8,8 @@ class Database
             $this->connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME);
 
             if (mysqli_connect_errno()) {
-                throw new Exception("Could not connect to database.");
+                throw new Exception("Could not connect to database." .
+            DB_HOST . "<br>" . DB_USERNAME . "<br>" . DB_PASSWORD . "<br>".DB_DATABASE_NAME);
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
