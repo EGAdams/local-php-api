@@ -4,14 +4,10 @@ class UserController extends BaseController {
 	public function listAction() {  //  "/user/list" Endpoint - Get list of users 
 		$strErrorDesc = '';
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
-		$arrQueryStringParams = $this->getQueryStringParams();
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
 				$userModel = new UserModel();
-				$object_view_id = 10;
-				if ( isset( $arrQueryStringParams[ 'limit' ]) && $arrQueryStringParams[ 'limit' ]) {
-					$object_view_id = $arrQueryStringParams[ 'limit' ]; }
-				$modelInsertActionResult = $userModel->getUsers( $object_view_id );
+				$modelInsertActionResult = $userModel->getMonitoredObjects();
 				$responseData = json_encode( $modelInsertActionResult );
 			} catch ( Error $e ) {
 				$strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
