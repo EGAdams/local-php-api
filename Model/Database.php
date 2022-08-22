@@ -20,9 +20,8 @@ class Database {
     public function insert( $query ) {
         try {
             $stmt = $this->executeStatement( $query );
-            $result = $stmt->get_result()->fetch_all( MYSQLI_ASSOC );
             $stmt->close();
-            return $result;
+            return $stmt;
         } catch ( Exception $e ) { throw new DatabaseException( $e->getMessage()); }
         return false;
     }

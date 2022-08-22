@@ -7,6 +7,7 @@ class UserModel extends Database {
 	}
 
     public function insertObject( $object_view_id, $object_data ) {
-        return $this->insert( "INSERT INTO users ( object_view_id, object_data ) VALUES ( $object_view_id, $object_data )" );
+        return $this->insert( "INSERT INTO monitored_objects ( object_view_id, object_data ) 
+                               VALUES ( " . "'" . $object_view_id . "', '" . $object_data. "')" );
     }
 }

@@ -26,31 +26,34 @@ class UserController extends BaseController {
 			$this->sendOutput( json_encode( array( 'error' => $strErrorDesc )),
 				array( 'Content-Type: application/json', $strErrorHeader )); }}
 
-        public function insertAction() {  //  "/user/list" Endpoint - Get list of users 
+        public function insertAction() {  //  "/user/insert" Endpoint - insert a new monitored object 
             $strErrorDesc = '';
             $requestMethod = $_SERVER[ "REQUEST_METHOD" ];
-            $arrQueryStringParams = $this->getQueryStringParams();
             if ( strtoupper( $requestMethod ) == 'POST') {
+                $inputJSON = file_get_contents('php://input');
+                $arrQueryStringParams = json_decode( $inputJSON, TRUE );
                 try {
                     $userModel = new UserModel();
                     if ( isset( $arrQueryStringParams[ 'object_view_id' ]) && $arrQueryStringParams[ 'object_view_id' ]) {
                         $object_view_id = $arrQueryStringParams[ 'object_view_id' ]; 
                     } else {
-                        $strErrorDesc .= 'object_view_id is required ';
+                        $strErrorDesc .= '*** ERROR: object view id is required for the insert action. ***';
                         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity'; 
                     }
                     if ( isset( $arrQueryStringParams[ 'object_data' ]) && $arrQueryStringParams[ 'object_data' ]) {
                         $object_data = $arrQueryStringParams[ 'object_data' ]; 
                     } else {
-                        $strErrorDesc .= 'object_view_id is required';
+                        $strErrorDesc .= '*** ERROR: object data is required for insert action ***';
                         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity'; 
                     }
-                    $modelInsertActionResult = $userModel->insertObject( $object_view_id, $object_data );
-                    $responseData = json_encode( $modelInsertActionResult );
+                    if ( !$strErrorDesc ) {
+                        $modelInsertActionResult = $userModel->insertObject( $object_view_id, $object_data );
+                        $responseData = json_encode( $modelInsertActionResult );
+                    }
                 } catch ( Error $e ) {
                     $strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';	}
-            } else {  // Not a GET request?  wtf...
+            } else {  // Not a POST request?  wtf...
                 $strErrorDesc = 'Method not supported';
                 $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity'; }
     
