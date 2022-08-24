@@ -13,11 +13,11 @@
                 "-dxdebug.mode=debug",
                 "-dxdebug.start_with_request=yes",
                 "-S",
-                "localhost:8081"
+                "localhost:0"
             ],
             "program": "",
             "cwd": "${workspaceRoot}",
-            "port": 9002,
+            "port": 9003,
             "serverReadyAction": {
                 "pattern": "Development Server \\(http://localhost:([0-9]+)\\) started",
                 "uriFormat": "http://localhost:%s",
