@@ -25,6 +25,15 @@ class Database {
         } catch ( Exception $e ) { throw new DatabaseException( $e->getMessage()); }
         return false;
     }
+
+    public function update( $query, $params = []) {
+        try {
+            $stmt = $this->executeStatement( $query, $params );
+            $stmt->close();
+            return $stmt;
+        } catch ( Exception $e ) { throw new DatabaseException( $e->getMessage()); }
+        return false;
+    }
     
 	private function executeStatement( $query = "", $params = []) {
 		try {
