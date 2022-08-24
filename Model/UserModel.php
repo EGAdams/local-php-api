@@ -10,7 +10,7 @@ class UserModel extends Database {
 	}
 
 	public function updateMonitoredObject($object_view_id, $object_data) {
-		return $this->update("INSERT INTO monitored_objects ( object_view_id, object_data )
-                               VALUES ( " . "'" . $object_view_id . "', '" . $object_data . "')");
+		return $this->update( "UPDATE monitored_objects SET object_data='" . $object_data .
+                               "' WHERE object_view_id='" . $object_view_id . "'" );
 	}
 }
