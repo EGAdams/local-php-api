@@ -7,11 +7,11 @@ class UserController extends BaseController {
 		$arrQueryStringParams = $this->getQueryStringParams();
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
-				$userModel = new UserModel();
+				$objectModel = new ObjectModel();
 				$object_view_id = 10;
 				if ( isset( $arrQueryStringParams[ 'limit' ]) && $arrQueryStringParams[ 'limit' ]) {
 					$object_view_id = $arrQueryStringParams[ 'limit' ]; }
-				$modelInsertActionResult = $userModel->getUsers( $object_view_id );
+				$modelInsertActionResult = $objectModel->getObjects( $object_view_id );
 				$responseData = json_encode( $modelInsertActionResult );
 			} catch ( Error $e ) {
 				$strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
@@ -32,7 +32,7 @@ class UserController extends BaseController {
             $arrQueryStringParams = $this->getQueryStringParams();
             if ( strtoupper( $requestMethod ) == 'POST') {
                 try {
-                    $userModel = new UserModel();
+                    $objectModel = new ObjectModel();
                     if ( isset( $arrQueryStringParams[ 'object_view_id' ]) && $arrQueryStringParams[ 'object_view_id' ]) {
                         $object_view_id = $arrQueryStringParams[ 'object_view_id' ]; 
                     } else {
@@ -45,7 +45,7 @@ class UserController extends BaseController {
                         $strErrorDesc .= 'object_view_id is required';
                         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity'; 
                     }
-                    $modelInsertActionResult = $userModel->insertObject( $object_view_id, $object_data );
+                    $modelInsertActionResult = $objectModel->insertObject( $object_view_id, $object_data );
                     $responseData = json_encode( $modelInsertActionResult );
                 } catch ( Error $e ) {
                     $strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
