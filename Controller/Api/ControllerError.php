@@ -2,13 +2,13 @@
 /** @class ControllerError */
 class ControllerError {
     public function __construct() {
-        $this->descriptions = "";
+        $this->errorMessages = "";
         $this->errorHeader = "";
         $this->clean       = true;        
     }
 
-    public function addDescription( $newDescription ) {
-        $this->descriptions .= "\n " . $newDescription;
+    public function addErrorMessage( $newErrorMessage ) {
+        $this->errorMessages .= "\n " . $newErrorMessage;
         $this->clean = false;
     }
 
@@ -17,6 +17,6 @@ class ControllerError {
     }
 
     public function getErrorHeader() {   return $this->errorHeader;  }
-    public function getErrorMessages() { return $this->descriptions; }
+    public function getErrorMessages() { return $this->errorMessages; }
     public function isClean() {          return $this->clean;        }
 }
