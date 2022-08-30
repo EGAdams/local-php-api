@@ -26,6 +26,15 @@ class Database {
         return false;
     }
 
+    public function delete( $query ) {
+        try {
+            $stmt = $this->executeStatement( $query );
+            $stmt->close();
+            return $stmt;
+        } catch ( Exception $e ) { throw new DatabaseException( $e->getMessage()); }
+        return false;
+    }
+
     public function update( $query, $params = []) {
         try {
             $stmt = $this->executeStatement( $query, $params );

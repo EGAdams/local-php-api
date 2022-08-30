@@ -11,7 +11,7 @@ if ((isset($uri[2]) && $uri[2] != 'user') || !isset($uri[3])) {
  
 require PROJECT_ROOT_PATH . "/Controller/Api/ObjectController.php";
  
-$objFeedController = new ObjectController();
-$strMethodName = $uri[3] . 'Action';
-$objFeedController->{$strMethodName}();
+$controller = new ObjectController( "monitored_objects" );
+$methodName = $uri[ 3 ] . 'Action';  // ie $controller->select_action();
+$controller->{ $methodName }();      // send data output from methodName();
 ?>
