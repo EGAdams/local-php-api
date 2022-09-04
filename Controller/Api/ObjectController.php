@@ -14,7 +14,7 @@ class ObjectController extends BaseController {
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
-				$selectResult = $model->getObjects();
+				$selectResult = $this->model->getObjects();
 				$responseData = json_encode( $selectResult  );
 			} catch ( Error $e ) {
 				$strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
@@ -49,7 +49,7 @@ class ObjectController extends BaseController {
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
-        try {  // if we are going to delete an object, we'll definitelty need at least the id.
+        try {  // if we are going to delete an object, we'll definitely need at least the id.
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
             $deleteResult   = $this->model->deleteObject( $object_view_id                         );
             $responseData   = json_encode( $deleteResult                                          );
@@ -66,8 +66,8 @@ class ObjectController extends BaseController {
         try {
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
             $object_data    = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_data"    );
-            $updatetResult  = $this->model->updateObject( $object_view_id, $object_data            );
-            $responseData   = json_encode( $updateResult                                           );
+            $updatedResult  = $this->model->updateObject( $object_view_id, $object_data            );
+            $responseData   = json_encode( $updatedResult                                          );
         } catch ( Error $e ) {
             $this->errorObject->addDescription( $e->getMessage()                                   );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error'               );
