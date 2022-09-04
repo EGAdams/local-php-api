@@ -10,7 +10,7 @@ class ObjectController extends BaseController {
         $this->errorObject = new ControllerError();
         $this->model       = new ObjectModel( $table_name ); }
 
-	public function selectAction() {  //  "/[ object ]/select" Endpoint - Get list of users 
+	public function selectAction() {  //  "/[ object ]/select" Endpoint - Get list of objects 
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
@@ -45,7 +45,7 @@ class ObjectController extends BaseController {
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' ));
     }
                         
-    public function deleteAction() {  //  "/user/insert" Endpoint - insert a new monitored object 
+    public function deleteAction() {  //  "/object/insert" Endpoint - insert a new monitored object 
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
@@ -59,7 +59,7 @@ class ObjectController extends BaseController {
             $this->sendErrorOutputAndDie(); }
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' )); }
 
-    public function updateAction() {  //  "/user/insert" Endpoint - insert a new monitored object 
+    public function updateAction() {  //  "/object/insert" Endpoint - insert a new monitored object 
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
@@ -101,4 +101,4 @@ class ObjectController extends BaseController {
 // * invoke sendOutput( result_data ) in BaseController
 
 // https://localhost/index.php/{ TABLE_NAME }/{ ID }
-// http://localhost/index.php/user/list?limit=20
+// http://localhost/index.php/object/list?limit=20
