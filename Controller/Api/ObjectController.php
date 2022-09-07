@@ -7,11 +7,16 @@
  */
 class ObjectController extends BaseController {
     public function __construct( $table_name ) { 
+        // echo "constructing object controller... <br>";
         $this->errorObject = new ControllerError();
-        $this->model       = new ObjectModel( $table_name ); }
+        // echo "constructing object model... <br>";
+        $this->model       = new ObjectModel( $table_name ); 
+        // echo "object controller constructed. <br>";
+    }
 
 	public function selectAction() {  //  "/[ object ]/select" Endpoint - Get list of objects 
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
+        $strErrorDesc  = "";
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
 				$selectResult = $this->model->getObjects();
@@ -36,8 +41,8 @@ class ObjectController extends BaseController {
         try {
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
             $object_data    = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_data"    );
-            $insertResult   = $this->model->insertObject( $object_view_id, $object_data           );
-            $responseData   = json_encode( $insertResult                                          );
+            $insertResult   = $this->model->insertObject( $object_view_id,        $object_data     );
+            $responseData   = json_encode(                $insertResult                            );
         } catch ( Error $e ) {
             $this->errorObject->addDescription( $e->getMessage() . 'Something went wrong! Please contact support.' );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error' );
@@ -45,7 +50,7 @@ class ObjectController extends BaseController {
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' ));
     }
                         
-    public function deleteAction() {  //  "/object/insert" Endpoint - insert a new monitored object 
+    public function deleteAction() {  //  "/object/delete" Endpoint - delete a monitored object 
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
@@ -59,14 +64,14 @@ class ObjectController extends BaseController {
             $this->sendErrorOutputAndDie(); }
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' )); }
 
-    public function updateAction() {  //  "/object/insert" Endpoint - insert a new monitored object 
+    public function updateAction() {  //  "/object/update" Endpoint - update a monitored object 
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
         try {
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
             $object_data    = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_data"    );
-            $updatedResult  = $this->model->updateObject( $object_view_id, $object_data            );
+            $updatedResult  = $this->model->updateObject( $object_view_id,         $object_data    );
             $responseData   = json_encode( $updatedResult                                          );
         } catch ( Error $e ) {
             $this->errorObject->addDescription( $e->getMessage()                                   );

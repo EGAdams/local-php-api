@@ -14,9 +14,11 @@
   </body>
   <script>
     const myList = document.querySelector("ul");
-
-    fetch("products.json")
+    // fetch("https://americansjewelry.com/test2/local-php-api/index.php/object/select", { mode: 'no-cors'})
+    fetch("products.json", { mode: 'no-cors'})
       .then((response) => {
+        console.log( response );
+        debugger;
         if (!response.ok) {
           throw new Error(`HTTP error, status = ${response.status}`);
         }
