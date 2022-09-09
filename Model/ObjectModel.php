@@ -12,8 +12,13 @@ class ObjectModel extends Database /* implements ObjectInserter, ObjectUpdater, 
                                $object_view_id . "'"); }
 
     public function insertObject( $object_view_id, $object_data ) {
-        return $this->insert( "INSERT INTO users ( object_view_id, object_data ) 
-                               VALUES ( $object_view_id, $object_data )" ); }
+        try {
+            $this->insert( "INSERT INTO users ( object_view_id, object_data ) 
+                               VALUES ( $object_view_id, $object_data )" );
+        } catch ( Exception $e ) {
+            return json_encode( "*** ERROR: " . $e->getMessage . " ***" );
+        }
+        return  json_encode( "insert success." ); }
 
     public function updateObject( $object_view_id, $object_data ) {
         return $this->update( 
