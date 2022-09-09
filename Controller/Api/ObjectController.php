@@ -41,8 +41,8 @@ class ObjectController extends BaseController {
         try {
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
             $object_data    = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_data"    );
-            $insertResult   = $this->model->insertObject( $object_view_id,        $object_data     );
-            $responseData   = json_encode(                $insertResult                            );
+            $insertResult   = $this->model->insertObject( $object_view_id, $object_data           );
+            $responseData   = json_encode( $insertResult                                          );
         } catch ( Error $e ) {
             $this->errorObject->addDescription( $e->getMessage() . 'Something went wrong! Please contact support.' );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error' );
