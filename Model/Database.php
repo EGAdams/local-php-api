@@ -3,8 +3,8 @@ class Database {
     protected $connection = null;
 	public function __construct() {
         try {
-            // echo "connecting to database ... <br>";
-            // echo DB_HOST . "<br>" . DB_USERNAME . "<br>" . DB_PASSWORD . "<br>" . DB_DATABASE_NAME . "<br>";
+            echo "connecting to database ... <br>";
+            echo DB_HOST . "<br>" . DB_USERNAME . "<br>" . DB_PASSWORD . "<br>" . DB_DATABASE_NAME . "<br>";
             $this->connection = new mysqli( DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME );
             // echo "done making connection. <br>";
 			if ( mysqli_connect_errno()) { throw new DatabaseException( "Could not connect to database." ); }

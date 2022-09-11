@@ -17,8 +17,8 @@ class ObjectModel extends Database /* implements ObjectInserter, ObjectUpdater, 
 
     public function insertObject( $object_view_id, $object_data ) {
         try {
-            $this->insert( "INSERT INTO users ( object_view_id, object_data ) 
-                               VALUES ( $object_view_id, $object_data )" );
+            $this->insert( "INSERT INTO $this->table ( object_view_id, object_data ) 
+                               VALUES ( '$object_view_id', '$object_data' )" );
         } catch ( Exception $e ) {
             return json_encode( "*** ERROR: " . $e->getMessage . " ***" );
         }
