@@ -7,14 +7,19 @@
  */
 class ObjectController extends BaseController {
     public function __construct( $table_name ) { 
+        // echo "constructing object controller... <br>";
         $this->errorObject = new ControllerError();
-        $this->model       = new ObjectModel( $table_name ); }
+        // echo "constructing object model... <br>";
+        $this->model       = new ObjectModel( $table_name ); 
+        // echo "object controller constructed. <br>";
+    }
 
-	public function selectAction() {  //  "/[ object ]/select" Endpoint - Get list of users 
+	public function selectAction() {  //  "/[ object ]/select" Endpoint - Get list of objects 
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
+        $strErrorDesc  = "";
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
-				$selectResult = $model->getObjects();
+				$selectResult = $this->model->getObjects();
 				$responseData = json_encode( $selectResult  );
 			} catch ( Error $e ) {
 				$strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
@@ -32,6 +37,10 @@ class ObjectController extends BaseController {
     public function insertAction() {  //  "/object/insert" Endpoint - insert a new monitored object 
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
+        if ( strlen( $inputJSON ) ==  0 ) { 
+            $this->errorObject->addErrorMessage( 'No input json data.' );
+            $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error' );
+            $this->sendErrorOutputAndDie(); }
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
         try {
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
@@ -45,11 +54,11 @@ class ObjectController extends BaseController {
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' ));
     }
                         
-    public function deleteAction() {  //  "/user/insert" Endpoint - insert a new monitored object 
+    public function deleteAction() {  //  "/object/delete" Endpoint - delete a monitored object 
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
-        try {  // if we are going to delete an object, we'll definitelty need at least the id.
+        try {  // if we are going to delete an object, we'll definitely need at least the id.
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
             $deleteResult   = $this->model->deleteObject( $object_view_id                         );
             $responseData   = json_encode( $deleteResult                                          );
@@ -59,17 +68,17 @@ class ObjectController extends BaseController {
             $this->sendErrorOutputAndDie(); }
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' )); }
 
-    public function updateAction() {  //  "/user/insert" Endpoint - insert a new monitored object 
+    public function updateAction() {  //  "/object/update" Endpoint - update a monitored object 
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
         try {
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
             $object_data    = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_data"    );
-            $updatetResult  = $this->model->updateObject( $object_view_id, $object_data            );
-            $responseData   = json_encode( $updateResult                                           );
+            $updatedResult  = $this->model->updateObject( $object_view_id,         $object_data    );
+            $responseData   = json_encode( $updatedResult                                          );
         } catch ( Error $e ) {
-            $this->errorObject->addDescription( $e->getMessage()                                   );
+            $this->errorObject->addErrorMessage( $e->getMessage()                                   );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error'               );
             $this->sendErrorOutputAndDie(); }
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' )); }
@@ -77,7 +86,7 @@ class ObjectController extends BaseController {
     private function isExpectedActionOrDie( $expectedMethod ) {          
         $requestMethod = $_SERVER[ "REQUEST_METHOD" ];
         if ( strtoupper( $requestMethod ) != $expectedMethod ) { // Not valid action request?  wtf...
-            $this->errorObject->addDescription( 'Method not supported'              );
+            $this->errorObject->addErrorMessage( 'Method not supported'              );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 422 Unprocessable Entity' );
             $this->sendErrorOutputAndDie(); }}
 
@@ -101,4 +110,4 @@ class ObjectController extends BaseController {
 // * invoke sendOutput( result_data ) in BaseController
 
 // https://localhost/index.php/{ TABLE_NAME }/{ ID }
-// http://localhost/index.php/user/list?limit=20
+// http://localhost/index.php/object/list?limit=20
