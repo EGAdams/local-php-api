@@ -1,13 +1,18 @@
 <?php
 define("PROJECT_ROOT_PATH", "/home/adamsl/joomla/prototype/local-php-api" );
+echo "requiring Database.php... <br>";
+
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";
+echo "done requiring database. <br>";
 
 class ObjectModel extends Database /* implements ObjectInserter, ObjectUpdater, ObjectDeleter, ObjectSelector */ {
 
     public function __construct( $table_arg ) { 
-        // echo "constructing Database parent... <br>";
+        echo "constructing Database parent... <br>";
+        
         parent::__construct();
-        // echo "done constructing ObjectModel parent. <br>";
+        echo "done constructing ObjectModel parent. <br>";
+        
         $this->table = $table_arg; }
                                                 
 	public function getObjects() { return $this->select( "SELECT * FROM $this->table" ); }     
@@ -31,3 +36,4 @@ class ObjectModel extends Database /* implements ObjectInserter, ObjectUpdater, 
             "  SET object_data='" . $object_data .
             "' WHERE object_view_id='" . $object_view_id . "'" ); }
 }
+echo "done with object model definition. <br>";
