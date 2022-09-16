@@ -17,7 +17,7 @@ class Database {
 		    echo "\$e->getMessage(): " . $e->getMessage();
          
 		    throw new DatabaseException( $e->getMessage()); }
-	    // echo "done constructing Database object. <br>";
+	        // echo "done constructing Database object. <br>";
 	}
     
 	public function select( $query = "", $params = []) {
