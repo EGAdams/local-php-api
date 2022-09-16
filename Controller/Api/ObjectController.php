@@ -14,12 +14,32 @@ class ObjectController extends BaseController {
         // echo "object controller constructed. <br>";
     }
 
-	public function selectAction() {  //  "/[ object ]/select" Endpoint - Get list of objects 
+	public function selectAction() {  //  "/[ object ]/select" Endpoint - select one object 
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
         $strErrorDesc  = "";
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
-				$selectResult = $this->model->getObjects();
+				$selectResult = $this->model->selectObject( "MonitoredObject_42" );
+				$responseData = json_encode( $selectResult  );
+			} catch ( Error $e ) {
+				$strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
+				$strErrorHeader = 'HTTP/1.1 500 Internal Server Error';	}
+		} else {  // Not a GET request?  wtf...
+			$strErrorDesc = 'Method not supported';
+			$strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity'; }
+
+		if ( !$strErrorDesc ) {	////// if no error, send output... ///////
+			$this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' ));
+		} else {
+			$this->sendOutput( json_encode( array( 'error' => $strErrorDesc )),
+				array( 'Content-Type: application/json', $strErrorHeader )); }}
+
+	public function selectAllAction() {  //  "/[ object ]/select" Endpoint - Get list of objects 
+		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
+        $strErrorDesc  = "";
+		if ( strtoupper( $requestMethod ) == 'GET') {
+			try {
+				$selectResult = $this->model->selectAllObjects();
 				$responseData = json_encode( $selectResult  );
 			} catch ( Error $e ) {
 				$strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
@@ -81,7 +101,9 @@ class ObjectController extends BaseController {
             $this->errorObject->addErrorMessage( $e->getMessage()                                   );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error'               );
             $this->sendErrorOutputAndDie(); }
-        $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' )); }
+        $this->sendOutput( $responseData, array( 'Content-Type: application/json',
+                                                 'Access-Control-Allow-Origin : "*"', 
+                                                 'Access-Control-Allow-Credentials : true',  'HTTP/1.1 200 OK' )); }
 
     private function isExpectedActionOrDie( $expectedMethod ) {          
         $requestMethod = $_SERVER[ "REQUEST_METHOD" ];
