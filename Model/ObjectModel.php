@@ -9,10 +9,8 @@ class ObjectModel extends Database /* implements ObjectInserter, ObjectUpdater, 
 
     public function __construct( $table_arg ) { 
         echo "constructing Database parent... <br>";
-        
         parent::__construct();
         echo "done constructing ObjectModel parent. <br>";
-        
         $this->table = $table_arg; }
                                                 
 	public function selectAllObjects() { return $this->select( "SELECT * FROM $this->table" ); }     
