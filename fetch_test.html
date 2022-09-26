@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="refresh" content="1" />
+    <!-- <meta http-equiv="refresh" content="1" /> -->
     <title>Fetch json example</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -15,8 +15,8 @@
   </body>
   <script>
     const myList = document.querySelector("ul");
-    // fetch("https://americansjewelry.com/test2/local-php-api/index.php/object/select", { mode: 'no-cors'})
-    fetch("products.json", { mode: 'no-cors'})
+    fetch("http://localhost:51666/object/select", { mode: 'no-cors'})
+    //fetch("products.json", { mode: 'no-cors'})
       .then((response) => {
         console.log( response );
         debugger;

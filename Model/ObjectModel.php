@@ -1,5 +1,5 @@
 <?php
-define("PROJECT_ROOT_PATH", "/home/adamsl/joomla/prototype/local-php-api" );
+// define("PROJECT_ROOT_PATH", "/home/adamsl/joomla/prototype/local-php-api" );
 echo "requiring Database.php... <br>";
 
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";

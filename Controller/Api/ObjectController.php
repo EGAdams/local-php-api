@@ -22,14 +22,17 @@ class ObjectController extends BaseController {
 				$selectResult = $this->model->selectObject( "MonitoredObject_42" );
 				$responseData = json_encode( $selectResult  );
 			} catch ( Error $e ) {
-				$strErrorDesc = $e->getMessage() . 'Something went wrong! Please contact support.';
+				$strErrorDesc = "*** ERROR: " . $e->getMessage() . " ***";
 				$strErrorHeader = 'HTTP/1.1 500 Internal Server Error';	}
 		} else {  // Not a GET request?  wtf...
 			$strErrorDesc = 'Method not supported';
 			$strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity'; }
 
 		if ( !$strErrorDesc ) {	////// if no error, send output... ///////
-			$this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' ));
+			$this->sendOutput( $responseData, array( 'Content-Type: application/json',
+                                                     'Access-Control-Allow-Origin : "*"', 
+                                                     'Access-Control-Allow-Credentials : true',  
+                                                     'HTTP/1.1 200 OK' ));
 		} else {
 			$this->sendOutput( json_encode( array( 'error' => $strErrorDesc )),
 				array( 'Content-Type: application/json', $strErrorHeader )); }}
