@@ -12,7 +12,7 @@ class Database {
             $this->connection = new mysqli( DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME );
             // echo "done making connection. <br>";
 			if ( mysqli_connect_errno()) { throw new DatabaseException( "Could not connect to database." ); }
-		} catch ( Exception $e ) { 
+		} catch ( Exception $e ) {
 		    echo "*** ERROR: DatabaseException about to be thrown! *** <br>";
 		    echo "\$e->getMessage(): " . $e->getMessage();
          
@@ -38,7 +38,7 @@ class Database {
             $stmt->close();
             return $stmt;
         } catch ( Exception $e ) {
-            echo "*** ERROR: DatabaseException: ".$e->getMessage() ."<br>"; 
+            echo "*** ERROR: DatabaseException: ".$e->getMessage() ."<br>";
             throw new DatabaseException( $e->getMessage()); }
         return false;
     }

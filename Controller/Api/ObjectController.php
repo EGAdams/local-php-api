@@ -3,23 +3,23 @@
 /*
  * we need this to depend on something that gets monitored objects.
  * not some concrete object that gets monitored objects.
- * 
+ *
  */
 class ObjectController extends BaseController {
-    public function __construct( $table_name ) { 
+    public function __construct( $table_name ) {
         // echo "constructing object controller... <br>";
         $this->errorObject = new ControllerError();
         // echo "constructing object model... <br>";
-        $this->model       = new ObjectModel( $table_name ); 
+        $this->model       = new ObjectModel( $table_name );
         // echo "object controller constructed. <br>";
     }
 
-	public function selectAction() {  //  "/[ object ]/select" Endpoint - select one object 
+	public function selectAction() {  //  "/[ object ]/select" Endpoint - select one object
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
         $strErrorDesc  = "";
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
-				$selectResult = $this->model->selectObject( "MonitoredObject_42" );
+				$selectResult = $this->model->selectObject( "MonitoredObject_45" );
 				$responseData = json_encode( $selectResult  );
 			} catch ( Error $e ) {
 				$strErrorDesc = "*** ERROR: " . $e->getMessage() . " ***";
@@ -30,14 +30,14 @@ class ObjectController extends BaseController {
 
 		if ( !$strErrorDesc ) {	////// if no error, send output... ///////
 			$this->sendOutput( $responseData, array( 'Content-Type: application/json',
-                                                     'Access-Control-Allow-Origin : "*"', 
-                                                     'Access-Control-Allow-Credentials : true',  
+                                                     'Access-Control-Allow-Origin : "*"',
+                                                     'Access-Control-Allow-Credentials : true',
                                                      'HTTP/1.1 200 OK' ));
 		} else {
 			$this->sendOutput( json_encode( array( 'error' => $strErrorDesc )),
 				array( 'Content-Type: application/json', $strErrorHeader )); }}
 
-	public function selectAllAction() {  //  "/[ object ]/select" Endpoint - Get list of objects 
+	public function selectAllAction() {  //  "/[ object ]/select" Endpoint - Get list of objects
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
         $strErrorDesc  = "";
 		if ( strtoupper( $requestMethod ) == 'GET') {
@@ -57,10 +57,10 @@ class ObjectController extends BaseController {
 			$this->sendOutput( json_encode( array( 'error' => $strErrorDesc )),
 				array( 'Content-Type: application/json', $strErrorHeader )); }}
 
-    public function insertAction() {  //  "/object/insert" Endpoint - insert a new monitored object 
+    public function insertAction() {  //  "/object/insert" Endpoint - insert a new monitored object
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
-        if ( strlen( $inputJSON ) ==  0 ) { 
+        if ( strlen( $inputJSON ) ==  0 ) {
             $this->errorObject->addErrorMessage( 'No input json data.' );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error' );
             $this->sendErrorOutputAndDie(); }
@@ -77,7 +77,7 @@ class ObjectController extends BaseController {
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' ));
     }
                         
-    public function deleteAction() {  //  "/object/delete" Endpoint - delete a monitored object 
+    public function deleteAction() {  //  "/object/delete" Endpoint - delete a monitored object
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
@@ -91,7 +91,7 @@ class ObjectController extends BaseController {
             $this->sendErrorOutputAndDie(); }
         $this->sendOutput( $responseData, array( 'Content-Type: application/json', 'HTTP/1.1 200 OK' )); }
 
-    public function updateAction() {  //  "/object/update" Endpoint - update a monitored object 
+    public function updateAction() {  //  "/object/update" Endpoint - update a monitored object
         $this->isExpectedActionOrDie( 'POST' );
         $inputJSON = file_get_contents('php://input');
         $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
@@ -105,10 +105,10 @@ class ObjectController extends BaseController {
             $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error'               );
             $this->sendErrorOutputAndDie(); }
         $this->sendOutput( $responseData, array( 'Content-Type: application/json',
-                                                 'Access-Control-Allow-Origin : "*"', 
+                                                 'Access-Control-Allow-Origin : "*"',
                                                  'Access-Control-Allow-Credentials : true',  'HTTP/1.1 200 OK' )); }
 
-    private function isExpectedActionOrDie( $expectedMethod ) {          
+    private function isExpectedActionOrDie( $expectedMethod ) {
         $requestMethod = $_SERVER[ "REQUEST_METHOD" ];
         if ( strtoupper( $requestMethod ) != $expectedMethod ) { // Not valid action request?  wtf...
             $this->errorObject->addErrorMessage( 'Method not supported'              );

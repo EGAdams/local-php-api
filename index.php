@@ -1,7 +1,7 @@
 <?php
 echo "requiring bootstrap.php... <br>";
-require __DIR__ . "/inc/config.php";
-require __DIR__ . "/inc/bootstrap.php";
+require_once __DIR__ . "/inc/config.php";
+require_once __DIR__ . "/inc/bootstrap.php";
  
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
@@ -11,7 +11,7 @@ if ((isset($uri[2]) && $uri[ 1 ] != 'object') || !isset($uri[ 2 ])) {
     exit();
 }
  
-require PROJECT_ROOT_PATH . "/Controller/Api/ObjectController.php";
+require_once PROJECT_ROOT_PATH . "/Controller/Api/ObjectController.php";
  
 $controller = new ObjectController( "monitored_objects" );
 $methodName = $uri[ 2 ] . 'Action';  // ie $controller->select_action();
