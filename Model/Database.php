@@ -1,13 +1,13 @@
 <?php
-echo "require_once config.php... <br>";
+// echo "require_once config.php... <br>";
 require_once  __DIR__  . "/../inc/config.php";
-echo "done requiring config.php. <br>";
+// echo "done requiring config.php. <br>";
 class Database {
     protected $connection = null;
 	public function __construct() {
         try {
-            echo "connecting to database ... <br>";
-            echo DB_HOST . "<br>" . DB_USERNAME . "<br>" . DB_PASSWORD . "<br>" . DB_DATABASE_NAME . "<br>";
+            // echo "connecting to database ... <br>";
+            // echo DB_HOST . "<br>" . DB_USERNAME . "<br>" . DB_PASSWORD . "<br>" . DB_DATABASE_NAME . "<br>";
             
             $this->connection = new mysqli( DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME );
             // echo "done making connection. <br>";
@@ -32,7 +32,7 @@ class Database {
     
     public function insert( $query ) {
         try {
-            echo "query: " . $query . "<br>";
+            // echo "query: " . $query . "<br>";
             
             $stmt = $this->executeStatement( $query );
             $stmt->close();
@@ -73,4 +73,4 @@ class Database {
 }
 class DatabaseException extends Exception {} // hush the generic Exception warning
 
-echo "done with Database definition. <br>";
+// echo "done with Database definition. <br>";
