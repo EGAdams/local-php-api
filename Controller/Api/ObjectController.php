@@ -30,11 +30,11 @@ class ObjectController extends BaseController {
 			$strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity'; }
 
 		if ( !$strErrorDesc ) {	////// if no error, send output... ///////
-// 			$this->sendOutput( $responseData, array( 'Content-Type: application/json',
-//                                                      'Access-Control-Allow-Origin : "*"',
-//                                                      'Access-Control-Allow-Credentials : true',
-//                                                      'HTTP/1.1 200 OK' ));
-            die( $responseData );
+			$this->sendOutput( $responseData, array( 'Content-Type: application/json',
+                                                     'Access-Control-Allow-Origin : "*"',
+                                                     'Access-Control-Allow-Credentials : true',
+                                                     'HTTP/1.1 200 OK' ));
+            
 		} else {
 		    echo "error !! <br>";
 			$this->sendOutput( json_encode( array( 'error' => $strErrorDesc )),
