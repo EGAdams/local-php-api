@@ -64,7 +64,7 @@ class ObjectController extends BaseController {
             $this->errorObject->addErrorMessage( 'No input json data.' );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 500 Internal Server Error' );
             $this->sendErrorOutputAndDie(); }
-        $dictionaryQueryParams = json_decode( $inputJSON, TRUE );
+        $dictionaryQueryParams = json_decode( $inputJSON, true );
         try {
             $object_view_id = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_view_id" );
             $object_data    = $this->getQueryStringOrDie( $dictionaryQueryParams, "object_data"    );
@@ -111,7 +111,7 @@ class ObjectController extends BaseController {
     private function isExpectedActionOrDie( $expectedMethod ) {
         $requestMethod = $_SERVER[ "REQUEST_METHOD" ];
         if ( strtoupper( $requestMethod ) != $expectedMethod ) { // Not valid action request?  wtf...
-            $this->errorObject->addErrorMessage( 'Method not supported'              );
+            $this->errorObject->addErrorMessage( $requestMethod . ' not supported'  );
             $this->errorObject->setErrorHeader( 'HTTP/1.1 422 Unprocessable Entity' );
             $this->sendErrorOutputAndDie(); }}
 
