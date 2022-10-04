@@ -34,7 +34,9 @@ class ObjectController extends BaseController {
                                                      'Access-Control-Allow-Origin : "*"',
                                                      'Access-Control-Allow-Credentials : true',
                                                      'HTTP/1.1 200 OK' ));
+            
 		} else {
+		    echo "error !! <br>";
 			$this->sendOutput( json_encode( array( 'error' => $strErrorDesc )),
 				array( 'Content-Type: application/json', $strErrorHeader )); }}
 

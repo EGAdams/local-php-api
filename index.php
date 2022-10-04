@@ -12,7 +12,8 @@ if ( $controller->is_localhost()) {
         header("HTTP/1.1 404 Not Found");
         exit(); }
 } else {
-    if ((isset($uri[ 4 ]) && $uri[ 4 ] != 'object' && $uri[ 4 ] != 'insert' ) || !isset($uri[ 5 ])) {
+    if ((isset($uri[ 7 ]) && $uri[ 7 ] != 'object' && $uri[ 8 ] != 'insert' ) &&  ($uri[ 8 ] != 'select' )) {
+        echo "error <br>";
         header("HTTP/1.1 404 Not Found");
         exit();
     }
@@ -24,8 +25,9 @@ if ( $controller->is_localhost()) {
 if ( $controller->is_localhost()) {
     $methodName = $uri[ 3 ] . 'Action';  // ie $controller->select_action();
 } else {
-    $methodName = $uri[ 5 ] . 'Action';  // ie $controller->select_action(); //either [ 2 ] or [ 5 ]
+    $methodName = $uri[ 5 ] . 'Action';  // ie $controller->select_action();
 }
-// echo "calling $methodName ... <br>";
+//echo "calling $methodName ... <br>";
+echo " ";
 $controller->{ $methodName }();      // send data output from methodName();
 ?>

@@ -1,13 +1,14 @@
 <?php
-define("PROJECT_ROOT_PATH", __DIR__ . "/../");
+define("PROJECT_ROOT_PATH", dirname( __DIR__, 1 ));
 //define("PROJECT_ROOT_PATH", "joomla/prototype/local-php-api" );
-echo "project root path is: " . PROJECT_ROOT_PATH . "<br>";
+// echo "project root path is: " . PROJECT_ROOT_PATH . "<br>";
 
 // include main configuration file
 // $project_root_path = PROJECT_ROOT_PATH . "/inc/config.php";
 //require_once $project_root_path;
 
 // include main configuration file
+// echo "opening ".  PROJECT_ROOT_PATH . "/inc/config.php"; 
 require_once PROJECT_ROOT_PATH . "/inc/config.php";
  
 // include the base controller file
