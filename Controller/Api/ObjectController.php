@@ -17,14 +17,15 @@ class ObjectController extends BaseController {
 	public function selectAction() {  //  "/[ object ]/select" Endpoint - select one object
 		$requestMethod = $_SERVER[ "REQUEST_METHOD" ];
         $strErrorDesc  = "";
+        $object_id     = $this->is_localhost() ? $this->getUriSegments()[ 4 ] : $this->getUriSegments()[ 6 ];
 		if ( strtoupper( $requestMethod ) == 'GET') {
 			try {
-				$selectResult = $this->model->selectObject( "MonitoredObject_45" );
-				$responseData = json_encode( $selectResult  );
+				$selectResult = $this->model->selectObject( $object_id );
+				$responseData = json_encode( $selectResult[ 0 ]  );
 			} catch ( Error $e ) {
 				$strErrorDesc = "*** ERROR: " . $e->getMessage() . " ***";
 				$strErrorHeader = 'HTTP/1.1 500 Internal Server Error';	}
-		} else {  // Not a GET request?  wtf...
+		} else {  // Not a GET request?  wtf... this is a select operation man.
 			$strErrorDesc = 'Method not supported';
 			$strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity'; }
 

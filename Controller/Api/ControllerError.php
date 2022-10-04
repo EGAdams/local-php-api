@@ -4,7 +4,7 @@ class ControllerError {
     public function __construct() {
         $this->errorMessages = "";
         $this->errorHeader = "";
-        $this->clean       = true;        
+        $this->clean       = true;
     }
 
     public function addErrorMessage( $newErrorMessage ) {

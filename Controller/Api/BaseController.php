@@ -1,6 +1,11 @@
 <?php
 /** @class BaseController */
 class BaseController {
+    /** @
+     * determine if localhost or not
+    */
+    public function is_localhost() { return true; }
+
 	/**
 	 * __call magic method.
 	 */
