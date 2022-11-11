@@ -8,7 +8,7 @@ define("PROJECT_ROOT_PATH", dirname( __DIR__, 1 ));
 //require_once $project_root_path;
 
 // include main configuration file
-// echo "opening ".  PROJECT_ROOT_PATH . "/inc/config.php"; 
+// echo "opening ".  PROJECT_ROOT_PATH . "/inc/config.php";
 require_once PROJECT_ROOT_PATH . "/inc/config.php";
  
 // include the base controller file
